@@ -32,13 +32,11 @@ final class TestLambdaUtilities {
     @Test
     void testDup() {
         assertEquals(
-            List.of(1, 101, 2, 102, 3, 103, 4, 104, 5, 105),
-            LambdaUtilities.dup(List.of(1, 2, 3, 4, 5), x -> x + 100)
-        );
+                List.of(1, 101, 2, 102, 3, 103, 4, 104, 5, 105),
+                LambdaUtilities.dup(List.of(1, 2, 3, 4, 5), x -> x + 100));
         assertEquals(
-            List.of(A, "aa", "b", "bb", "c", "cc"),
-            LambdaUtilities.dup(List.of(A, "b", "c"), x -> x + x)
-        );
+                List.of(A, "aa", "b", "bb", "c", "cc"),
+                LambdaUtilities.dup(List.of(A, "b", "c"), x -> x + x));
     }
 
     /**
@@ -47,13 +45,12 @@ final class TestLambdaUtilities {
     @Test
     void testOptFilter() {
         assertEquals(
-            List.of(Optional.empty(), Optional.of(2), Optional.empty(), Optional.of(4), Optional.empty(), Optional.of(6)),
-            LambdaUtilities.optFilter(List.of(1, 2, 3, 4, 5, 6), x -> x % 2 == 0)
-        );
+                List.of(Optional.empty(), Optional.of(2), Optional.empty(), Optional.of(4), Optional.empty(),
+                        Optional.of(6)),
+                LambdaUtilities.optFilter(List.of(1, 2, 3, 4, 5, 6), x -> x % 2 == 0));
         assertEquals(
-            List.of(Optional.empty(), Optional.of("bcd"), Optional.of("qw"), Optional.empty(), Optional.empty()),
-            LambdaUtilities.optFilter(List.of(A, "bcd", "qw", "e", ""), x -> x.length() > 1)
-        );
+                List.of(Optional.empty(), Optional.of("bcd"), Optional.of("qw"), Optional.empty(), Optional.empty()),
+                LambdaUtilities.optFilter(List.of(A, "bcd", "qw", "e", ""), x -> x.length() > 1));
     }
 
     /**
@@ -62,20 +59,16 @@ final class TestLambdaUtilities {
     @Test
     void testGroup() {
         assertEquals(
-            Map.of(
-                "even", Set.of(2, 4),
-                "odd", Set.of(1, 3, 5)
-            ),
-            LambdaUtilities.group(List.of(1, 2, 3, 4, 5), x -> x % 2 == 0 ? "even" : "odd")
-        );
+                Map.of(
+                        "even", Set.of(2, 4),
+                        "odd", Set.of(1, 3, 5)),
+                LambdaUtilities.group(List.of(1, 2, 3, 4, 5), x -> x % 2 == 0 ? "even" : "odd"));
         assertEquals(
-            Map.of(
-                3, Set.of("abc", "qwe"),
-                2, Set.of("zx", "cv"),
-                1, Set.of("o")
-            ),
-            LambdaUtilities.group(List.of("abc", "qwe", "zx", "o", "cv"), String::length)
-        );
+                Map.of(
+                        3, Set.of("abc", "qwe"),
+                        2, Set.of("zx", "cv"),
+                        1, Set.of("o")),
+                LambdaUtilities.group(List.of("abc", "qwe", "zx", "o", "cv"), String::length));
     }
 
     /**
@@ -85,15 +78,13 @@ final class TestLambdaUtilities {
     void testFill() {
         final var random = new Random();
         final var map = LambdaUtilities.fill(
-            Map.of(
-                P_1, Optional.of(1),
-                P_2, Optional.of(2),
-                N_1, Optional.empty(),
-                P_3, Optional.of(3),
-                N_2, Optional.empty()
-            ),
-            () -> random.nextInt(10) - 10
-        );
+                Map.of(
+                        P_1, Optional.of(1),
+                        P_2, Optional.of(2),
+                        N_1, Optional.empty(),
+                        P_3, Optional.of(3),
+                        N_2, Optional.empty()),
+                () -> random.nextInt(10) - 10);
         assertEquals(map.keySet(), Set.of(P_1, P_2, P_3, N_1, N_2));
         assertEquals(1, map.get(P_1));
         assertEquals(2, map.get(P_2));
