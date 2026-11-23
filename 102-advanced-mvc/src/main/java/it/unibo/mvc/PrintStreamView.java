@@ -15,14 +15,12 @@ public final class PrintStreamView implements DrawNumberView {
     private final PrintStream out;
 
     /**
-     * Builds a {@link PrintStreamView} that writes on the given {@link PrintStream}.
+     * Builds a {@link PrintStreamView} that writes on the given
+     * {@link PrintStream}.
      *
      * @param stream the {@link PrintStream} where to write
      */
-    @SuppressFBWarnings(
-        value = "EI_EXPOSE_REP2",
-        justification = "PrintStream stored by purpose for output operations"
-    )
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "PrintStream stored by purpose for output operations")
     public PrintStreamView(final PrintStream stream) {
         out = stream;
     }
@@ -59,6 +57,11 @@ public final class PrintStreamView implements DrawNumberView {
     @Override
     public void result(final DrawResult res) {
         out.println(res.getDescription());
+    }
+
+    @Override
+    public void displayError(final String message) {
+        out.println(message);
     }
 
 }

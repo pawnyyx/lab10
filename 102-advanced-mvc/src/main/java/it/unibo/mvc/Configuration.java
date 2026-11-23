@@ -1,18 +1,45 @@
 package it.unibo.mvc;
 
+import java.io.IOException;
+import java.lang.System.Logger.Level;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Stream;
+
 /**
  * Encapsulates the concept of configuration.
  */
 public final class Configuration {
 
-    private final int max;
-    private final int min;
-    private final int attempts;
+    private int max;
+    private int min;
+    private int attempts;
 
-    private Configuration(final int max, final int min, final int attempts) {
-        this.max = max;
-        this.min = min;
-        this.attempts = attempts;
+    private Configuration(final String stringPath) {
+        final Path path = Path.of(stringPath);
+        try (Stream<String> stream = Files.lines(path)) {
+            stream
+                    .filter(line -> !line.isBlank() && line.contains(":"))
+                    .map(line -> line.split(": "))
+                    .forEach(splittedLine -> {
+                        switch (splittedLine[0]) {
+                            case "minimum":
+                                min = Integer.parseInt(splittedLine[1]);
+                                break;
+                            case "maximum":
+                                max = Integer.parseInt(splittedLine[1]);
+                                break;
+                            case "attempts":
+                                attempts = Integer.parseInt(splittedLine[1]);
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+        } catch (final IOException e) {
+            System.getLogger("App").log(Level.ERROR,
+                    "An error occurred while fetching configuration: " + e.getMessage());
+        }
     }
 
     /**
@@ -67,7 +94,7 @@ public final class Configuration {
      * unclear to understand, in a call to its constructor, which is which. By using
      * the builder, we emulate the so-called "named arguments".
      */
-    public static class Builder {
+    public static final class Builder {
 
         private static final int DEFAULT_MIN = 0;
         private static final int DEFAULT_MAX = 100;
@@ -119,17 +146,44 @@ public final class Configuration {
         }
 
         /**
+         * Getter for {@link currentAttempts}.
+         * 
+         * @return returns the value above
+         */
+        public int getCurrentAttempts() {
+            return currentAttempts;
+        }
+
+        /**
+         * Getter for {@link currentMax}.
+         * 
+         * @return returns the value above
+         */
+        public int getCurrentMax() {
+            return currentMax;
+        }
+
+        /**
+         * Getter for {@link currentMin}.
+         * 
+         * @return returns the value above
+         */
+        public int getCurrentMin() {
+            return currentMin;
+        }
+
+        /**
          * Builds the configuration.
          *
          * @return a configuration
          */
-        public final Configuration build() {
+        public Configuration build() {
             if (consumed) {
                 throw new IllegalStateException("The builder can only be used once");
             }
             consumed = true;
-            return new Configuration(currentMax, currentMin, currentAttempts);
+            return new Configuration("src/main/resources/config.yml");
         }
     }
-}
 
+}
