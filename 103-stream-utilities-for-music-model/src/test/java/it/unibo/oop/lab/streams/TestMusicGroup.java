@@ -71,16 +71,15 @@ final class TestMusicGroup {
     @Test
     void testOrderedSongNames() {
         final List<String> result = Arrays.asList(
-            "Black Dog",
-            "Dazed and Confused",
-            "I Can't Quit You Baby",
-            "Immigrant Song",
-            "Ramble On",
-            "That's the Way",
-            "Travelling Riverside Blues",
+                "Black Dog",
+                "Dazed and Confused",
+                "I Can't Quit You Baby",
+                "Immigrant Song",
+                "Ramble On",
+                "That's the Way",
+                "Travelling Riverside Blues",
                 WHEN_THE_LEVEE_BREAKS,
-            "Whole Lotta Love"
-        );
+                "Whole Lotta Love");
         final List<String> actual = lz.orderedSongNames().collect(toList());
         assertEquals(result, actual);
     }
