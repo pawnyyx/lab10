@@ -75,7 +75,7 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * @throws FileNotFoundException if the configuration file cannot be fetched
      */
     public static void main() throws FileNotFoundException {
-        new DrawNumberApp(new DrawNumberViewImpl());
+        new DrawNumberApp(new DrawNumberViewImpl(), new PrintStreamView("C:\\Users\\federico.lotito\\Documents\\lab10\\102-advanced-mvc\\src\\main\\resources\\file.txt"));
     }
 
 }
